@@ -1,0 +1,4 @@
+name: RedstoneLink
+version: '1.0.0'
+main: org.nano.redstoneLink.RedstoneLink
+api-version: '1.20'
