@@ -11,12 +11,11 @@ public class BlockLink {
     private String lore;
     private BlockState state = BlockState.UNLOCK;
 
-    public BlockLink(int id, Location location, String name, String lore, BlockState state) {
+    public BlockLink(int id, Location location, String name, String lore) {
         this.id = id;
         this.location = location;
         this.name = name;
         this.lore = lore;
-        this.state = state;
     }
 
     public int getId() {
