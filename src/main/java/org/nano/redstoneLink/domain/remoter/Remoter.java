@@ -19,7 +19,7 @@ public class Remoter {
     private String password = "0000";
     private Set<UUID> whitelist = new HashSet<>();
 
-    public Remoter(List<BlockLink> linkedBlocks, Location location, ControllerType type, int id) {
+    public Remoter(int id, ControllerType type, Location location, List<BlockLink> linkedBlocks) {
         this.linkedBlocks = linkedBlocks;
         this.location = location;
         this.type = type;

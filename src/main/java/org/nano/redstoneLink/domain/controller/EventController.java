@@ -20,6 +20,7 @@ public class EventController {
 
     public void place(BlockPlaceEvent e) {
         if ( itemService.has(e.getItemInHand()) ){
+            itemService.updateLocation(e.getPlayer(),e.getBlock().getLocation());
             e.setCancelled(true);
         }
     }

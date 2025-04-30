@@ -33,8 +33,9 @@ public class Controller {
             player.sendMessage(" 레버 또는 버튼을 손에 들어주세요. ");
             return;
         }
-
+        remoterService.addRemoter(unq);
         itemService.changeByEquipMainItem(player,unq);
+
         player.sendMessage(" 적용이 완료되었습니다. ");
     }
 

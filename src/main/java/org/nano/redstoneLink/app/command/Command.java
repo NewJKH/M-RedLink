@@ -64,7 +64,7 @@ public class Command implements CommandExecutor {
         return true;
     }
     private void apply(Player player, String unique){
-        int unq = InputUtil.input(Integer.class,unique);
+        int unq = InputUtil.input(Integer.class, unique);
         controller.apply(player,unq);
     }
 

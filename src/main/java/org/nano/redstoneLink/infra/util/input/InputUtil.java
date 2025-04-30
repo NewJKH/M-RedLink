@@ -27,7 +27,7 @@ public class InputUtil {
         while (true) {
             try {
                 return (T) parser.apply(value);
-            } catch (NumberFormatException e) {
+            } catch (InputParseException e) {
                 System.out.println("입력에 오류가 발생했습니다.");
             }
         }

@@ -1,7 +1,9 @@
 package org.nano.redstoneLink.domain.service;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.nano.redstoneLink.infra.util.item.ItemDataManger;
@@ -24,6 +26,15 @@ public class ItemService {
 
     public void changeByEquipMainItem(Player player,int unique){
         ItemStack itemStack = player.getInventory().getItemInMainHand();
-        itemDataManger.setData(itemStack.getItemMeta(),ItemKey.SEQUENCE, unique+"");
+        ItemMeta meta = itemDataManger.setData(itemStack.getItemMeta(),ItemKey.SEQUENCE, unique+"");
+        itemStack.setItemMeta(meta);
+        player.getInventory().setItemInMainHand(itemStack);
+    }
+
+    public void updateLocation(Player player, Location loc) {
+        ItemStack itemStack = player.getInventory().getItemInMainHand();
+        ItemMeta meta = itemDataManger.setData(itemStack.getItemMeta(),ItemKey.LOCATION, loc.toString());
+        itemStack.setItemMeta(meta);
+        player.getInventory().setItemInMainHand(itemStack);
     }
 }
