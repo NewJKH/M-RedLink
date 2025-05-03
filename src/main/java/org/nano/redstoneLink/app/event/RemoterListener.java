@@ -5,7 +5,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.nano.redstoneLink.app.ui.MenuGUI;
 import org.nano.redstoneLink.domain.controller.EventController;
 import org.nano.redstoneLink.shared.enums.ControllerType;
 
@@ -37,7 +39,11 @@ public class RemoterListener implements Listener {
         } else if (e.getPlayer().isSneaking() && e.getAction() == Action.RIGHT_CLICK_BLOCK ) {
             eventController.openMenu(e);
         }
-
-
+    }
+    @EventHandler
+    public void clickInventory(InventoryClickEvent e){
+        if ( e.getInventory().getHolder() instanceof MenuGUI gui){
+            eventController.clickGui(e,gui);
+        }
     }
 }

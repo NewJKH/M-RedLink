@@ -4,8 +4,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.nano.redstoneLink.app.ui.MenuGUI;
 import org.nano.redstoneLink.domain.remoter.Remoter;
 import org.nano.redstoneLink.domain.service.ItemService;
 import org.nano.redstoneLink.domain.service.LinkedService;
@@ -84,5 +86,44 @@ public class EventController {
         }
         Remoter remoter = remoterService.getRemoterByLocation(loc);
         remoterService.openRemoter(player,remoter);
+    }
+
+    public void clickGui(InventoryClickEvent e, MenuGUI gui) {
+        try {
+            int slot = e.getRawSlot();
+            Player player = (Player) e.getWhoClicked();
+            ItemStack item = e.getCurrentItem();
+
+            switch (slot){
+                case 45 ->{
+
+                }
+                case 47 ->{
+
+                }
+                case 48 ->{
+
+                }
+                case 49 ->{
+                    linkedService.prepareLinking(player,gui.getRemoter());
+                }
+                case 50 ->{
+
+                }
+                case 51 ->{
+
+                }
+                case 53 ->{
+
+                }
+
+            }
+
+
+        }catch (Exception e2){
+            e2.printStackTrace();
+        }finally {
+            e.setCancelled(true);
+        }
     }
 }

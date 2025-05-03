@@ -53,8 +53,6 @@ public class RemoterService {
     }
 
     public void openRemoter(Player player, Remoter remoter) {
-        new MenuGUI(
-                remoter
-        ).progress(player);
+        new MenuGUI(remoter).progress(player);
     }
 }

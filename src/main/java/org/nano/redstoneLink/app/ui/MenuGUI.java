@@ -16,7 +16,7 @@ public class MenuGUI extends GUIHandler implements InventoryHolder {
 
     public MenuGUI(Remoter remoter) {
         this.remoter = remoter;
-        this.inventory = Bukkit.createInventory(this,54, ColorUtil.convert("&6회로"));
+        this.inventory = Bukkit.createInventory(this,54, ColorUtil.convert("&8회로"));
     }
 
     @Override
@@ -35,11 +35,15 @@ public class MenuGUI extends GUIHandler implements InventoryHolder {
             inventory.setItem(50,guiItems.allController());
             inventory.setItem(51,guiItems.retrieval());
             inventory.setItem(53,guiItems.nextButton());
-        });
+        }).start();
     }
 
     @Override
     protected void open(Player player) {
         player.openInventory(this.inventory);
+    }
+
+    public Remoter getRemoter() {
+        return remoter;
     }
 }

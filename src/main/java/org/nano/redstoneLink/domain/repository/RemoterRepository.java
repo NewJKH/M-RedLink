@@ -1,6 +1,7 @@
 package org.nano.redstoneLink.domain.repository;
 
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 import org.nano.redstoneLink.domain.block.BlockLink;
 import org.nano.redstoneLink.domain.remoter.Remoter;
 
@@ -41,8 +42,8 @@ public class RemoterRepository {
         remoters.add(remoter);
     }
 
-    public void addLinedBlock(BlockLink blockLink){
-
+    public void addLinedBlock(Remoter remoter, BlockLink blockLink){
+        remoter.getLinkedBlocks().add(blockLink);
     }
 
     public Optional<Remoter> getByLocation(Location loc) {
@@ -50,4 +51,12 @@ public class RemoterRepository {
                 .filter(remoter -> remoter.getLocation().equals(loc))
                 .findFirst();
     }
+
+    public boolean findByBlock(@NotNull Location location) {
+        return remoters.stream()
+                .anyMatch(remoter -> remoter.getLinkedBlocks().stream()
+                        .anyMatch(blockLink -> blockLink.getLocation().equals(location))
+                );
+    }
+
 }
