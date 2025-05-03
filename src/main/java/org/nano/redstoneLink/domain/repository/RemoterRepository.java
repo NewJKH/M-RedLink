@@ -29,9 +29,9 @@ public class RemoterRepository {
         this.remoters = remoters;
     }
 
-    public Optional<Remoter> getById(int id){
+    public Optional<Remoter> getById(String id){
         return remoters.stream()
-                .filter(remoter -> remoter.getId() == id)
+                .filter(remoter -> remoter.getId().equals(id))
                 .findFirst();
     }
 

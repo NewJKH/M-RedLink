@@ -18,7 +18,7 @@ public class Controller {
         this.itemService = itemService;
     }
 
-    public void apply(Player player, int unq) {
+    public void apply(Player player, String unq) {
         if ( remoterService.has(unq) ){
             player.sendMessage(" 이미 존재하는 번호입니다. ");
             return;

@@ -24,9 +24,9 @@ public class ItemService {
         return ControllerType.check(itemInMainHand.getType());
     }
 
-    public void changeByEquipMainItem(Player player,int unique){
+    public void changeByEquipMainItem(Player player,String unique){
         ItemStack itemStack = player.getInventory().getItemInMainHand();
-        ItemMeta meta = itemDataManger.setData(itemStack.getItemMeta(),ItemKey.SEQUENCE, unique+"");
+        ItemMeta meta = itemDataManger.setData(itemStack.getItemMeta(),ItemKey.SEQUENCE, unique);
         itemStack.setItemMeta(meta);
         player.getInventory().setItemInMainHand(itemStack);
     }
@@ -36,5 +36,10 @@ public class ItemService {
         ItemMeta meta = itemDataManger.setData(itemStack.getItemMeta(),ItemKey.LOCATION, loc.toString());
         itemStack.setItemMeta(meta);
         player.getInventory().setItemInMainHand(itemStack);
+    }
+
+    public String getUnique(ItemStack item) {
+        return itemDataManger.getData(item.getItemMeta(),ItemKey.SEQUENCE)
+                .orElse("");
     }
 }

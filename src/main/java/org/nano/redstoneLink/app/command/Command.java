@@ -5,7 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.nano.redstoneLink.domain.controller.Controller;
-import org.nano.redstoneLink.infra.util.input.InputUtil;
 
 public class Command implements CommandExecutor {
     private final Controller controller;
@@ -64,8 +63,7 @@ public class Command implements CommandExecutor {
         return true;
     }
     private void apply(Player player, String unique){
-        int unq = InputUtil.input(Integer.class, unique);
-        controller.apply(player,unq);
+        controller.apply(player,unique);
     }
 
     private void setMaxEA(Player player, String unique, String strEA){
