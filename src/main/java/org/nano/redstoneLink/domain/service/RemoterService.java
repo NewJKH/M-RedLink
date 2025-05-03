@@ -3,6 +3,7 @@ package org.nano.redstoneLink.domain.service;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.nano.redstoneLink.app.ui.MenuGUI;
 import org.nano.redstoneLink.domain.remoter.Remoter;
 import org.nano.redstoneLink.domain.repository.RemoterRepository;
 import org.nano.redstoneLink.shared.enums.ControllerType;
@@ -49,5 +50,11 @@ public class RemoterService {
            return player.isOp() || player.getUniqueId().equals(remoter.getOwner()) || remoter.getWhitelist().contains(player.getUniqueId());
        }
        return false;
+    }
+
+    public void openRemoter(Player player, Remoter remoter) {
+        new MenuGUI(
+                remoter
+        ).progress(player);
     }
 }

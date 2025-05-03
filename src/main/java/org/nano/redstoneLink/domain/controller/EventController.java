@@ -6,6 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.nano.redstoneLink.domain.remoter.Remoter;
 import org.nano.redstoneLink.domain.service.ItemService;
 import org.nano.redstoneLink.domain.service.LinkedService;
 import org.nano.redstoneLink.domain.service.PlayerStatService;
@@ -81,6 +82,7 @@ public class EventController {
         if ( !remoterService.isLocationCache(loc) ){
             return;
         }
-
+        Remoter remoter = remoterService.getRemoterByLocation(loc);
+        remoterService.openRemoter(player,remoter);
     }
 }

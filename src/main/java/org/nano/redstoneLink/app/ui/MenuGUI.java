@@ -6,13 +6,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 import org.nano.redstoneLink.app.ui.handler.GUIHandler;
+import org.nano.redstoneLink.app.ui.items.GuiItems;
+import org.nano.redstoneLink.domain.remoter.Remoter;
 import org.nano.redstoneLink.infra.util.component.ColorUtil;
 
 public class MenuGUI extends GUIHandler implements InventoryHolder {
     private final Inventory inventory;
+    private final Remoter remoter;
 
-    public MenuGUI() {
-        inventory = Bukkit.createInventory(this,54, ColorUtil.convert("&6회로"));
+    public MenuGUI(Remoter remoter) {
+        this.remoter = remoter;
+        this.inventory = Bukkit.createInventory(this,54, ColorUtil.convert("&6회로"));
     }
 
     @Override
@@ -22,7 +26,16 @@ public class MenuGUI extends GUIHandler implements InventoryHolder {
 
     @Override
     protected void setup() {
-        // 아이템 넣는 로직 작성 그전에... 일단
+        GuiItems guiItems = new GuiItems();
+        new Thread(()->{
+            inventory.setItem(45,guiItems.previousButton());
+            inventory.setItem(47,guiItems.password(remoter.getPassword()));
+            inventory.setItem(48,guiItems.whitelist());
+            inventory.setItem(49,guiItems.add());
+            inventory.setItem(50,guiItems.allController());
+            inventory.setItem(51,guiItems.retrieval());
+            inventory.setItem(53,guiItems.nextButton());
+        });
     }
 
     @Override

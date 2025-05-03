@@ -31,6 +31,12 @@ public class ItemBuilder {
     public static ItemBuilder builder() {
         return new ItemBuilder();
     }
+    public static ItemBuilder builder(Material material) {
+        return new ItemBuilder(material);
+    }
+    public static ItemBuilder builder(ItemStack itemStack) {
+        return new ItemBuilder(itemStack);
+    }
 
     public ItemBuilder setDisplay(String display){
         Component name = ColorUtil.convert(display);
