@@ -17,7 +17,10 @@ public class Controller {
         this.remoterService = remoterService;
         this.itemService = itemService;
     }
-
+    /**
+    * command - apply
+    *
+     */
     public void apply(Player player, String unq) {
         if ( remoterService.has(unq) ){
             player.sendMessage(" 이미 존재하는 번호입니다. ");
@@ -33,7 +36,7 @@ public class Controller {
             player.sendMessage(" 레버 또는 버튼을 손에 들어주세요. ");
             return;
         }
-        remoterService.addRemoter(unq);
+//        remoterService.addRemoter(player, unq);
         itemService.changeByEquipMainItem(player,unq);
 
         player.sendMessage(" 적용이 완료되었습니다. ");

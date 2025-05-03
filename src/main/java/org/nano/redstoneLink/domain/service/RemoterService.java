@@ -16,22 +16,19 @@ public class RemoterService {
         return remoterRepository.getById(unq).isPresent();
     }
 
-    public void addRemoter(String unq) {
-        Remoter remoter = new Remoter(unq, ControllerType.LEVER, null,new ArrayList<>());
-        remoterRepository.addRemoter(remoter);
-    }
-
     public boolean isLocationCache(@NotNull Location location) {
         return remoterRepository.getRemoters().stream()
                 .map(remoter -> remoter.getLocation().equals(location))
-                .findFirst()
+                .findAny()
                 .isPresent();
     }
 
+    public void save(Remoter remoter) {
+        remoterRepository.addRemoter(remoter);
+    }
+
     public void save(String uni, Location loc) {
-        remoterRepository.getById(uni)
-                .ifPresentOrElse(
-                        remoter -> remoter.setLocation(loc),
-                        ()-> System.out.println("오류발생 = " + "ERROR 2"));
+        Remoter remoter = new Remoter(uni,ControllerType.LEVER,loc,new ArrayList<>());
+        remoterRepository.addRemoter(remoter);
     }
 }

@@ -1,6 +1,6 @@
 package org.nano.redstoneLink.domain.controller;
 
-import org.bukkit.block.Block;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -25,42 +25,36 @@ public class EventController {
     }
 
     /**
-     * 컨트롤러를 설치할 때 발동되는 Event
-     * 검사 과정 :
-     *  1. 설치할 때 해당 아이템이 컨트롤러인지 확인
-     *  2. 컨트롤러인지 확인되었다면, 해당 UniqueName 으로된 컨트롤러가 이미 설치가 되어 있는지 확인
-     *  3. 설치하려는 위치에 다른 컨트롤러가 있는지 확인
      *
-     *  없다면,
-     *  해당 위치에 컨트롤러 설치완료 메세지.
-     *
+     * 아이템에 있는 Unique 번호만 인식 ( 이미 등록된 객체라면 설치 금지 )
      *
      * @param e BLockPlaceEvent
      */
     public void place(BlockPlaceEvent e) {
         Player player = e.getPlayer();
         ItemStack item = e.getItemInHand();
-        Block block = e.getBlockPlaced();
+        Location loc = e.getBlock().getLocation();
 
-
-        // 우클릭한 아이템이 컨트롤러인지 확인
-        if ( !itemService.has(item) ){
-            player.sendMessage(" 이 아이템은 컨트롤러가 아님");
+        if ( !itemService.has(item) ) {
+            // 컨트롤러가 맞는지 확인
+            player.sendMessage(" 컨트롤러가 아닙니다.");
             return;
         }
+
         String uni = itemService.getUnique(item);
-        if( !remoterService.has(uni) ){
-            player.sendMessage(" 캐시에 저장되지 않은 정보 ");
+        if ( remoterService.has(uni)){
+            player.sendMessage(" 이미 설치된 객체입니다.");
             e.setCancelled(true);
             return;
         }
 
-        if ( remoterService.isLocationCache(block.getLocation())){
-            player.sendMessage(" 이미 해당 위치에 같은 위치에 등록된 객체가 있습니다. ");
+        if ( remoterService.isLocationCache(loc)){
+            player.sendMessage(" 이미 해당 위치에 컨트롤러가 존재합니다. ");
+            e.setCancelled(true);
             return;
         }
 
-        remoterService.save(uni,block.getLocation());
-        player.sendMessage(" "+block.getLocation()+" 위치에 컨트롤러가 설치되었습니다. ");
+        remoterService.save(uni,loc);
+        player.sendMessage(" 저장되었습니다 "+loc);
     }
 }

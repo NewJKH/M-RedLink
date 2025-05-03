@@ -36,6 +36,7 @@ public class RemoterRepository {
     }
 
     public void addRemoter(Remoter remoter){
+        remoters.removeIf(r -> r.getId().equals(remoter.getId()));
         remoters.add(remoter);
     }
 
