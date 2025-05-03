@@ -1,6 +1,7 @@
 package org.nano.redstoneLink.domain.controller;
 
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -71,8 +72,7 @@ public class EventController {
         if ( !remoterService.isLocationCache(loc) ){
             return;
         }
-
-        if ( remoterService.useRemoter(player,loc) ){
+        if ( remoterService.useRemoter(player,loc) ) {
             e.setUseInteractedBlock(Event.Result.ALLOW);
         }
     }
@@ -106,6 +106,8 @@ public class EventController {
                 }
                 case 49 ->{
                     linkedService.prepareLinking(player,gui.getRemoter());
+                    player.closeInventory();
+                    player.sendMessage(" 링크할 블럭을 우클릭 해주세요. ");
                 }
                 case 50 ->{
 
@@ -124,6 +126,14 @@ public class EventController {
             e2.printStackTrace();
         }finally {
             e.setCancelled(true);
+        }
+    }
+
+    public void tryLink(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        Block block = e.getClickedBlock();
+        if ( linkedService.succeedLinking(player,block) ){
+
         }
     }
 }

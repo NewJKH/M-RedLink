@@ -1,15 +1,23 @@
 package org.nano.redstoneLink.domain.service;
 
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.nano.redstoneLink.app.ui.MenuGUI;
+import org.nano.redstoneLink.domain.block.BlockLink;
 import org.nano.redstoneLink.domain.remoter.Remoter;
 import org.nano.redstoneLink.domain.repository.RemoterRepository;
+import org.nano.redstoneLink.shared.enums.BlockState;
 import org.nano.redstoneLink.shared.enums.ControllerType;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 public class RemoterService {
 
@@ -44,13 +52,48 @@ public class RemoterService {
     }
 
     public boolean useRemoter(Player player, Location loc) {
-       Optional<Remoter> remoterOpt = remoterRepository.getByLocation(loc);
-       if ( remoterOpt.isPresent() ) {
-           Remoter remoter = remoterOpt.get();
-           return player.isOp() || player.getUniqueId().equals(remoter.getOwner()) || remoter.getWhitelist().contains(player.getUniqueId());
-       }
-       return false;
+        Optional<Remoter> remoterOpt = remoterRepository.getByLocation(loc);
+        if (remoterOpt.isEmpty()) {
+            return false;
+        }
+
+        Remoter remoter = remoterOpt.get();
+
+        if (!canUseRemoter(player, remoter)) {
+            return false;
+        }
+
+        World world = loc.getWorld();
+        if (world == null) {
+            return false;
+        }
+
+        for (BlockLink link : remoter.getLinkedBlocks()) {
+            if (link.getState() != BlockState.UNLOCK) continue;
+
+            Location linkLoc = link.getLocation();
+            Block block = world.getBlockAt(linkLoc);
+            BlockData data = block.getBlockData();
+
+            if (data instanceof Powerable powerable) {
+                powerable.setPowered(true);
+                block.setBlockData(powerable);
+            }
+            if (data instanceof Directional directional){
+                directional.setFacing(directional.getFacing());
+            }
+        }
+
+        return true;
     }
+
+    private boolean canUseRemoter(Player player, Remoter remoter) {
+        UUID uuid = player.getUniqueId();
+        return player.isOp()
+                || uuid.equals(remoter.getOwner())
+                || remoter.getWhitelist().contains(uuid);
+    }
+
 
     public void openRemoter(Player player, Remoter remoter) {
         new MenuGUI(remoter).progress(player);

@@ -7,6 +7,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.nano.redstoneLink.app.ui.MenuGUI;
 import org.nano.redstoneLink.domain.controller.EventController;
 import org.nano.redstoneLink.shared.enums.ControllerType;
@@ -38,6 +39,12 @@ public class RemoterListener implements Listener {
             eventController.useRemoter(e);
         } else if (e.getPlayer().isSneaking() && e.getAction() == Action.RIGHT_CLICK_BLOCK ) {
             eventController.openMenu(e);
+        }
+    }
+    @EventHandler
+    public void linking(PlayerInteractEvent e){
+        if ( e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getHand() == EquipmentSlot.HAND){
+            eventController.tryLink(e);
         }
     }
     @EventHandler
