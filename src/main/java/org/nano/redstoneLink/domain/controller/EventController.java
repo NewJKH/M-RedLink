@@ -2,12 +2,16 @@ package org.nano.redstoneLink.domain.controller;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.nano.redstoneLink.domain.service.ItemService;
 import org.nano.redstoneLink.domain.service.LinkedService;
 import org.nano.redstoneLink.domain.service.PlayerStatService;
 import org.nano.redstoneLink.domain.service.RemoterService;
+
+import java.util.Objects;
 
 public class EventController {
     private final LinkedService linkedService;
@@ -36,7 +40,6 @@ public class EventController {
         Location loc = e.getBlock().getLocation();
 
         if ( !itemService.has(item) ) {
-            // 컨트롤러가 맞는지 확인
             player.sendMessage(" 컨트롤러가 아닙니다.");
             return;
         }
@@ -54,7 +57,30 @@ public class EventController {
             return;
         }
 
-        remoterService.save(uni,loc);
+        remoterService.save(player, uni, loc);
         player.sendMessage(" 저장되었습니다 "+loc);
+    }
+
+    public void useRemoter(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        Location loc = Objects.requireNonNull(e.getClickedBlock()).getLocation();
+
+        if ( !remoterService.isLocationCache(loc) ){
+            return;
+        }
+
+        if ( remoterService.useRemoter(player,loc) ){
+            e.setUseInteractedBlock(Event.Result.ALLOW);
+        }
+    }
+
+    public void openMenu(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        Location loc = Objects.requireNonNull(e.getClickedBlock()).getLocation();
+
+        if ( !remoterService.isLocationCache(loc) ){
+            return;
+        }
+
     }
 }

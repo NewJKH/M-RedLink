@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class Remoter {
+    private final UUID owner;
     private final String  id;
     private final ControllerType type;
     private Location location;
@@ -19,14 +20,16 @@ public class Remoter {
     private String password = "0000";
     private Set<UUID> whitelist = new HashSet<>();
 
-    public Remoter(String id, ControllerType type, Location location, List<BlockLink> linkedBlocks) {
+    public Remoter(UUID owner, String id, ControllerType type, Location location, List<BlockLink> linkedBlocks) {
+        this.owner = owner;
         this.linkedBlocks = linkedBlocks;
         this.location = location;
         this.type = type;
         this.id = id;
     }
 
-    public Remoter(String id, ControllerType type, Location location, List<BlockLink> linkedBlocks, int maxLinkedBlocks, String password, Set<UUID> whitelist) {
+    public Remoter(UUID owner, String id, ControllerType type, Location location, List<BlockLink> linkedBlocks, int maxLinkedBlocks, String password, Set<UUID> whitelist) {
+        this.owner = owner;
         this.id = id;
         this.type = type;
         this.location = location;
@@ -34,6 +37,10 @@ public class Remoter {
         this.maxLinkedBlocks = maxLinkedBlocks;
         this.password = password;
         this.whitelist = whitelist;
+    }
+
+    public UUID getOwner() {
+        return owner;
     }
 
     public String getId() {
