@@ -12,7 +12,6 @@ import org.nano.redstoneLink.domain.service.RemoterService;
 import java.util.Objects;
 
 public final class RedstoneLink extends JavaPlugin {
-
     @Override
     public void onEnable() {
         final LinkedService linkedService = new LinkedService();

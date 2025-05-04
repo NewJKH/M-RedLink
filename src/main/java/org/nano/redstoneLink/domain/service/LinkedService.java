@@ -1,13 +1,14 @@
 package org.nano.redstoneLink.domain.service;
 
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
 import org.nano.redstoneLink.domain.block.BlockLink;
 import org.nano.redstoneLink.domain.remoter.Remoter;
 import org.nano.redstoneLink.domain.repository.RemoterRepository;
 import org.nano.redstoneLink.shared.model.Disposable;
+
+import static org.nano.redstoneLink.shared.model.AccessBlock.ACCESSIBLE_BLOCKS;
 
 public class LinkedService {
 
@@ -26,7 +27,7 @@ public class LinkedService {
             return false;
         }
 
-        if (!(block.getBlockData() instanceof Powerable) || !(block.getBlockData() instanceof Directional)) {
+        if (!(block.getBlockData() instanceof Powerable) || !(ACCESSIBLE_BLOCKS.contains(block.getType()))) {
             player.sendMessage("레드스톤이 적용되지 않는 블럭입니다.");
             return false;
         }
