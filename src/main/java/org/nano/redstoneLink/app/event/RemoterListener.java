@@ -1,6 +1,5 @@
 package org.nano.redstoneLink.app.event;
 
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -31,9 +30,6 @@ public class RemoterListener implements Listener {
         if (!ControllerType.check(e.getClickedBlock().getType())) {
             return;
         }
-
-        e.setUseInteractedBlock(Event.Result.DENY);
-        e.setUseItemInHand(Event.Result.DENY);
 
         if ( !e.getPlayer().isSneaking() && e.getAction() == Action.RIGHT_CLICK_BLOCK ) {
             eventController.useRemoter(e);

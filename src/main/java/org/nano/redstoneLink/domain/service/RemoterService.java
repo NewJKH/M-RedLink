@@ -3,9 +3,6 @@ package org.nano.redstoneLink.domain.service;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.nano.redstoneLink.app.ui.MenuGUI;
@@ -14,6 +11,7 @@ import org.nano.redstoneLink.domain.remoter.Remoter;
 import org.nano.redstoneLink.domain.repository.RemoterRepository;
 import org.nano.redstoneLink.shared.enums.BlockState;
 import org.nano.redstoneLink.shared.enums.ControllerType;
+import org.nano.redstoneLink.shared.registry.BlockHandlerRegistry;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -22,6 +20,7 @@ import java.util.UUID;
 public class RemoterService {
 
     private final RemoterRepository remoterRepository = RemoterRepository.getInstance();
+    private final BlockHandlerRegistry blockHandlerRegistry = new BlockHandlerRegistry();
 
     public boolean has(String unq) {
         return remoterRepository.getById(unq).isPresent();
@@ -53,40 +52,23 @@ public class RemoterService {
 
     public boolean useRemoter(Player player, Location loc) {
         Optional<Remoter> remoterOpt = remoterRepository.getByLocation(loc);
-        if (remoterOpt.isEmpty()) {
-            return false;
-        }
+        if (remoterOpt.isEmpty()) return false;
 
         Remoter remoter = remoterOpt.get();
-
-        if (!canUseRemoter(player, remoter)) {
-            return false;
-        }
+        if (!canUseRemoter(player, remoter)) return false;
 
         World world = loc.getWorld();
-        if (world == null) {
-            return false;
-        }
+        if (world == null) return false;
 
         for (BlockLink link : remoter.getLinkedBlocks()) {
             if (link.getState() != BlockState.UNLOCK) continue;
 
-            Location linkLoc = link.getLocation();
-            Block block = world.getBlockAt(linkLoc);
-            BlockData data = block.getBlockData();
-
-            if (data instanceof Powerable powerable) {
-                powerable.setPowered(true);
-                block.setBlockData(powerable);
-            }
-            if (data instanceof Directional directional){
-                directional.setFacing(directional.getFacing());
-            }
+            Block block = world.getBlockAt(link.getLocation());
+            blockHandlerRegistry.handle(block);
         }
 
         return true;
     }
-
     private boolean canUseRemoter(Player player, Remoter remoter) {
         UUID uuid = player.getUniqueId();
         return player.isOp()

@@ -27,7 +27,8 @@ public class LinkedService {
             return false;
         }
 
-        if (!(block.getBlockData() instanceof Powerable) || !(ACCESSIBLE_BLOCKS.contains(block.getType()))) {
+        if (!(block.getBlockData() instanceof Powerable) &&
+                !(ACCESSIBLE_BLOCKS.contains(block.getType()))) {
             player.sendMessage("레드스톤이 적용되지 않는 블럭입니다.");
             return false;
         }

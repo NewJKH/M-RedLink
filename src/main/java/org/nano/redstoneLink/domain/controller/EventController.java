@@ -74,6 +74,9 @@ public class EventController {
         }
         if ( remoterService.useRemoter(player,loc) ) {
             e.setUseInteractedBlock(Event.Result.ALLOW);
+        }else {
+            e.setUseInteractedBlock(Event.Result.DENY);
+            e.setUseItemInHand(Event.Result.DENY);
         }
     }
 
