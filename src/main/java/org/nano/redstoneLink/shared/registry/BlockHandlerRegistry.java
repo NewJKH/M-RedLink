@@ -1,9 +1,7 @@
 package org.nano.redstoneLink.shared.registry;
 
 import org.bukkit.block.Block;
-import org.nano.redstoneLink.domain.block.handler.AbstractBlockHandler;
-import org.nano.redstoneLink.domain.block.handler.LampHandler;
-import org.nano.redstoneLink.domain.block.handler.PowerableBlockHandler;
+import org.nano.redstoneLink.domain.block.handler.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,9 @@ public class BlockHandlerRegistry {
 
     public BlockHandlerRegistry() {
         handlers.add(new PowerableBlockHandler());
-        handlers.add(new LampHandler());
+        handlers.add(new LampHandler(new VisualLampRegistry()));
+        handlers.add(new DispenserHandler());
+        handlers.add(new OpenableHandler());
     }
 
     public void handle(Block block) {

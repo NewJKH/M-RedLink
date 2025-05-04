@@ -44,7 +44,6 @@ public class EventController {
         Location loc = e.getBlock().getLocation();
 
         if ( !itemService.has(item) ) {
-            player.sendMessage(" 컨트롤러가 아닙니다.");
             return;
         }
 
@@ -81,6 +80,9 @@ public class EventController {
     }
 
     public void openMenu(PlayerInteractEvent e) {
+        e.setUseInteractedBlock(Event.Result.DENY);
+        e.setUseItemInHand(Event.Result.DENY);
+
         Player player = e.getPlayer();
         Location loc = Objects.requireNonNull(e.getClickedBlock()).getLocation();
 
