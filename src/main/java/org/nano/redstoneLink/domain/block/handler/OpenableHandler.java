@@ -15,6 +15,5 @@ public class OpenableHandler extends AbstractBlockHandler{
         Openable openable = (Openable) block.getBlockData();
         openable.setOpen(!openable.isOpen());
         block.setBlockData(openable);
-        System.out.println("실행");
     }
 }

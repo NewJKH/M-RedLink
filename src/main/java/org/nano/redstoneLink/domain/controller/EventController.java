@@ -60,6 +60,7 @@ public class EventController {
             return;
         }
 
+
         remoterService.save(player, uni, loc);
         player.sendMessage(" 저장되었습니다 "+loc);
     }
